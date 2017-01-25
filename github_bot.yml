@@ -1,0 +1,17 @@
+user: user
+token: token
+repo: user/repo
+logging-config: logging.conf
+messages:
+  warning: >
+    Warning: this issue has been inactive for {days_inactive} days and
+    will be automatically closed on {deadline:%Y-%m-%d} if there is no further activity.
+  closing: >
+    Notice: this issue has been closed because it has been inactive for {days_inactive} days. You may reopen this issue if it has been closed in error.
+schedule:
+  warning_start: 14 # days before starting warnings
+  warning_frequency: 14 # minimum time between warnings
+  closing: 56 # days before closing
+  
+# issue warnings instead of closing until this date
+# first_closing_date: 2017-03-01 12:00:00
