@@ -70,10 +70,10 @@ overridden by the command line.
     # path to custom logging configuration (optional)
     # logging-config: /home/user/logging.conf
 
-    # Do not warn or close issues opened by these users
-    #ignore-users:
-    #  - username1
-    #  - username2
+    # Do not warn or close issues opened by these users (optional)
+    # ignore-users:
+    #   - username1
+    #   - username2
 
 Scripts
 -------
