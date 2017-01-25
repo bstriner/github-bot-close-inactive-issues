@@ -1,4 +1,4 @@
-from github_bot.rate_limit import main
+from github_bot_close_inactive_issues.rate_limit import main
 import sys
 
 if __name__ == "__main__":

@@ -3,10 +3,10 @@ import os
 
 VERSION = '0.0.1'
 
-scripts = [os.path.join("scripts", file) for file in ["github_rate_limit.py", "github_close_inactive_issues.py"]]
-package_data = {"github_bot":["logging.conf"]}
+scripts = [os.path.join("scripts", file) for file in ["github-rate-limit.py", "github-close-inactive-issues.py"]]
+package_data = {"github_bot_close_inactive_issues": ["logging.conf"]}
 
-setup(name='github-bot',
+setup(name='github-bot-close-inactive-issues',
       version=VERSION,
       description='Bot for managing GitHub repositories',
       url='https://github.com/bstriner/github-bot',
