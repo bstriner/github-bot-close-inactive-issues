@@ -38,17 +38,20 @@ messages:
     Warning: this issue has been inactive for {days_inactive} days and
     will be automatically closed on {deadline:%Y-%m-%d} if there is no further activity.
   closing: >
-    Notice: this issue has been closed because it has been inactive for
-    {days_inactive} days. You may reopen this issue if it has been closed in error.
+    Notice: this issue has been closed because it has been inactive for {days_inactive} days.
+    You may reopen this issue if it has been closed in error.
 schedule:
   warning_start: 14 # days before starting warnings
-  warning_frequency: 7 # days between warnings
+  warning_frequency: 7 # minimum time between warnings
   closing: 56 # days before closing
-  
-# issue warnings instead of closing until this date
+
+# label to add to issues when closing automatically (optional)
+# label: inactive
+
+# issue warnings instead of closing until this date (optional)
 # first_closing_date: 2017-03-01 12:00:00
 
-# path to custom logging configuration
+# path to custom logging configuration (optional)
 # logging-config: /home/user/logging.conf
 ```
 
@@ -125,3 +128,10 @@ back until that date.
 ###Logging
 Bot uses python `logging` module. A default `logging.conf` is provided but can be overridden by including
 `logging-config` in `github_bot.yml` or passing `--logging-config` on the command line.
+
+###Labels
+Bot can add a label to issues when they are closed. Make sure to create that label on GitHub
+and confirm that the name exactly matches the name in the configuration file.
+
+##Questions?
+Please feel free to submit issues or pull requests if you have any questions or concerns. Cheers!

@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 import logging
 import logging.config
 
-CONFIG_FILE = 'github_bot_close_inactive_issues.yml'
+CONFIG_FILE = 'github_bot.yml'
 
 
 def start_logging(config):

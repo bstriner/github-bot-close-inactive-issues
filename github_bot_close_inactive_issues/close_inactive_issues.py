@@ -16,7 +16,7 @@ def process_issues(config):
     warning_start = schedule["warning_start"]
     warning_frequency = schedule["warning_frequency"]
     closing = schedule["closing"]
-    logging.info("Starting process_issues")
+    logging.info("Starting close_inactive_issues")
     logging.info("Repo: {}, User: {}".format(config["repo"], config["user"]))
     logging.info("warning_start: {}, warning_frequency: {}, closing: {}".format(
         warning_start, warning_frequency, closing))
@@ -29,11 +29,11 @@ def process_issues(config):
         days_inactive = (now - lm).days
         deadline = get_deadline(lm, config)
         # if after deadline
-        if now >= deadline:
+        if now > deadline:
             # close the issue
             logging.info("Issue {}: closed after inactive for {} days".format(issue.number, days_inactive))
             if "test" not in config:
-                issue_close(issue, config, days_inactive)
+                issue_close(issue, config, days_inactive, config["label"])
         # if after warning_start
         elif days_inactive >= warning_start:
             # if no previous warning or more than warning_frequency since last warning
@@ -58,6 +58,7 @@ def main(argv):
     parser.add_argument('--user', action="store", help='Github user')
     parser.add_argument('--token', action="store", help='Github token')
     parser.add_argument('--repo', action="store", help='Repository')
+    parser.add_argument('--label', action="store", help='Add this label to issues when closing')
     parser.add_argument('--test', action="store_true",
                         help='Print actions that would be taken but do not modify repository')
     args = parser.parse_args(argv)
@@ -72,5 +73,9 @@ def main(argv):
         config["logging-config"] = args.logging_config
     if args.test:
         config["test"] = True
+    if args.label:
+        config["label"] = args.label
+    if "label" not in config:
+        config["label"] = None
     start_logging(config)
     process_issues(config)

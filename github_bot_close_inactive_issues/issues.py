@@ -1,8 +1,8 @@
-
+"""Utilities for managing issues
+"""
 
 def issue_last_modified(issue, bot_username):
-    dates = []
-    dates.append(issue.created_at)
+    dates = [issue.created_at]
     for event in issue.get_events():
         if event.actor.login != bot_username:
             dates.append(event.created_at)
@@ -11,12 +11,14 @@ def issue_last_modified(issue, bot_username):
             dates.append(comment.created_at)
     return max(dates)
 
+
 def issue_warnings(issue, bot_username):
     dates = []
     for comment in issue.get_comments():
         if comment.user.login == bot_username:
             dates.append(comment.created_at)
     return dates
+
 
 def issue_last_warning(issue, bot_username):
     dates = issue_warnings(issue, bot_username)
@@ -25,13 +27,16 @@ def issue_last_warning(issue, bot_username):
     else:
         return None
 
-def issue_close(issue, config, days_inactive):
+
+def issue_close(issue, config, days_inactive, label):
+    labels = issue.labels
+    if label:
+        labels += [label]
     body = config["messages"]["closing"].format(days_inactive=days_inactive)
     issue.create_comment(body)
-    issue.edit(state='closed')
+    issue.edit(state='closed', labels=labels)
 
 
 def issue_warning(issue, config, days_inactive, deadline):
     body = config["messages"]["warning"].format(days_inactive=days_inactive, deadline=deadline)
     issue.create_comment(body)
-
