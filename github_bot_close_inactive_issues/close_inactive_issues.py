@@ -21,6 +21,8 @@ def process_issues(config):
     logging.info("warning_start: {}, warning_frequency: {}, closing: {}".format(
         warning_start, warning_frequency, closing))
     count = 0
+    warnings = 0
+    closed = 0
     wait_for_rate_limit(conn)
     for issue in issues:
         wait_for_rate_limit(conn)
@@ -34,6 +36,7 @@ def process_issues(config):
         if now > deadline:
             # close the issue
             logging.info("Issue {}: closed after inactive for {} days".format(issue.number, days_inactive))
+            closed += 1
             if "test" not in config:
                 issue_close(issue, config, days_inactive, config["label"])
         # if after warning_start
@@ -44,13 +47,14 @@ def process_issues(config):
                 logging.info(
                     "Issue {}: warning posted, inactive for {} days, will be closed after {}".format(
                         issue.number, days_inactive, deadline))
+                warnings += 1
                 if "test" not in config:
                     issue_warning(issue, config, days_inactive, deadline)
             else:
                 # no warning, just log
                 logging.info("Issue {}: inactive for {} days, will be closed after {}".format(
                     issue.number, days_inactive, deadline))
-    logging.info("Processed {} open issues".format(count))
+    logging.info("Processed {} open issues. {} issues closed. {} warnings posted.".format(count, closed, warnings))
 
 
 def main(argv):
