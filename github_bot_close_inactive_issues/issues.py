@@ -4,7 +4,7 @@
 def issue_last_modified(issue, bot_username):
     dates = [issue.created_at]
     for event in issue.get_events():
-        if event.actor.login != bot_username:
+        if (not event.actor) or (event.actor.login != bot_username):
             dates.append(event.created_at)
     for comment in issue.get_comments():
         if comment.user.login != bot_username:
