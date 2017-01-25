@@ -1,5 +1,5 @@
 import argparse
-from .utils import get_config, connect, get_deadline, rate_limit, start_logging
+from .utils import get_config, connect, get_deadline, rate_limit, start_logging, wait_for_rate_limit
 from .issues import issue_last_modified, issue_last_warning
 from .issues import issue_close, issue_warning
 import logging
@@ -21,7 +21,9 @@ def process_issues(config):
     logging.info("warning_start: {}, warning_frequency: {}, closing: {}".format(
         warning_start, warning_frequency, closing))
     count = 0
+    wait_for_rate_limit(conn)
     for issue in issues:
+        wait_for_rate_limit(conn)
         count += 1
         lm = issue_last_modified(issue, config["user"])
         lw = issue_last_warning(issue, config["user"])

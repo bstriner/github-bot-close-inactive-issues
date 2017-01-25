@@ -4,6 +4,7 @@ from github import Github
 from datetime import datetime, timedelta
 import logging
 import logging.config
+import time
 
 CONFIG_FILE = 'github_bot.yml'
 
@@ -56,3 +57,10 @@ def rate_limit(config):
     rate = conn.get_rate_limit().rate
     reset = datetime.fromtimestamp(conn.rate_limiting_resettime)
     logging.info("Limit: {}, Remaining: {}, Reset: {}".format(rate.limit, rate.remaining, reset))
+
+def wait_for_rate_limit(conn, min=100, sleep_time=60*5):
+    remaining = conn.get_rate_limit().rate.remaining
+    while remaining < min:
+        logging.info("Current limit: {}. Sleeping for {} seconds.".format(remaining, sleep_time))
+        time.sleep(sleep_time)
+        remaining = conn.get_rate_limit().rate.remaining
