@@ -9,7 +9,9 @@ CONFIG_FILE = 'github_bot.yml'
 
 
 def start_logging(config):
-    logging_config = config["logging-config"]
+    logging_config = None
+    if "logging-config" in config:
+        logging_config = config["logging-config"]
     if not logging_config:
         logging_config = os.path.join(os.path.dirname(__file__), "logging.conf")
     if not os.path.exists(logging_config):
@@ -33,7 +35,7 @@ def get_config(config_file=None):
 def connect(config):
     # return Github(config["user"], config["token"])
     # return PyGithub.Blocking.Builder().OAuth(token).Build()
-    return Github(config["token"])
+    return Github(config["user"], config["token"])
 
 
 def get_deadline(lm, config):
