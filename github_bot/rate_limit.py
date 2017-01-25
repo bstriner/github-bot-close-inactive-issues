@@ -1,5 +1,5 @@
 import argparse
-from .utils import get_config, rate_limit
+from .utils import get_config, rate_limit, start_logging
 import logging
 import logging.config
 
@@ -18,5 +18,5 @@ def main(argv):
         config["token"] = args.token
     if args.logging_config:
         config["logging-config"] = args.logging_config
-    logging.config.fileConfig(config["logging-config"])
+    start_logging(config)
     rate_limit(config)

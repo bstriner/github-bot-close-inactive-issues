@@ -1,5 +1,5 @@
 import argparse
-from .utils import get_config, connect, get_deadline, rate_limit
+from .utils import get_config, connect, get_deadline, rate_limit, start_logging
 from .issues import issue_last_modified, issue_last_warning
 from .issues import issue_close, issue_warning
 import logging
@@ -72,5 +72,5 @@ def main(argv):
         config["logging-config"] = args.logging_config
     if args.test:
         config["test"] = True
-    logging.config.fileConfig(config["logging-config"])
+    start_logging(config)
     process_issues(config)
