@@ -53,6 +53,11 @@ schedule:
 
 # path to custom logging configuration (optional)
 # logging-config: /home/user/logging.conf
+
+# Do not warn or close issues opened by these users
+#ignore-users:
+#  - username1
+#  - username2
 ```
 
 ##Scripts
@@ -132,6 +137,9 @@ Bot uses python `logging` module. A default `logging.conf` is provided but can b
 ###Labels
 Bot can add a label to issues when they are closed. Make sure to create that label on GitHub
 and confirm that the name exactly matches the name in the configuration file.
+
+###Ignoring users
+Bot can ignore issues created by selected users, such as the repository owner.
 
 ##Questions?
 Please feel free to submit issues or pull requests if you have any questions or concerns. Cheers!

@@ -25,35 +25,36 @@ def process_issues(config):
     closed = 0
     wait_for_rate_limit(conn)
     for issue in issues:
-        wait_for_rate_limit(conn)
-        count += 1
-        lm = issue_last_modified(issue, config["user"])
-        lw = issue_last_warning(issue, config["user"])
-        now = datetime.utcnow()
-        days_inactive = (now - lm).days
-        deadline = get_deadline(lm, config)
-        # if after deadline
-        if now > deadline:
-            # close the issue
-            logging.info("Issue {}: closed after inactive for {} days".format(issue.number, days_inactive))
-            closed += 1
-            if "test" not in config:
-                issue_close(issue, config, days_inactive, config["label"])
-        # if after warning_start
-        elif days_inactive >= warning_start:
-            # if no previous warning or more than warning_frequency since last warning
-            if (lw is None) or ((now - lw).days >= warning_frequency):
-                # post a warning
-                logging.info(
-                    "Issue {}: warning posted, inactive for {} days, will be closed after {}".format(
-                        issue.number, days_inactive, deadline))
-                warnings += 1
+        if ("ignore-users" not in config) or (issue.user.login not in config["ignore-users"]):
+            wait_for_rate_limit(conn)
+            count += 1
+            lm = issue_last_modified(issue, config["user"])
+            lw = issue_last_warning(issue, config["user"])
+            now = datetime.utcnow()
+            days_inactive = (now - lm).days
+            deadline = get_deadline(lm, config)
+            # if after deadline
+            if now > deadline:
+                # close the issue
+                logging.info("Issue {}: closed after inactive for {} days".format(issue.number, days_inactive))
+                closed += 1
                 if "test" not in config:
-                    issue_warning(issue, config, days_inactive, deadline)
-            else:
-                # no warning, just log
-                logging.info("Issue {}: inactive for {} days, will be closed after {}".format(
-                    issue.number, days_inactive, deadline))
+                    issue_close(issue, config, days_inactive, config["label"])
+            # if after warning_start
+            elif days_inactive >= warning_start:
+                # if no previous warning or more than warning_frequency since last warning
+                if (lw is None) or ((now - lw).days >= warning_frequency):
+                    # post a warning
+                    logging.info(
+                        "Issue {}: warning posted, inactive for {} days, will be closed after {}".format(
+                            issue.number, days_inactive, deadline))
+                    warnings += 1
+                    if "test" not in config:
+                        issue_warning(issue, config, days_inactive, deadline)
+                else:
+                    # no warning, just log
+                    logging.info("Issue {}: inactive for {} days, will be closed after {}".format(
+                        issue.number, days_inactive, deadline))
     logging.info("Processed {} open issues. {} issues closed. {} warnings posted.".format(count, closed, warnings))
 
 
