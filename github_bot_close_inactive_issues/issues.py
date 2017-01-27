@@ -47,6 +47,6 @@ def issue_should_process(issue, config):
         return False
     if config["ignore-labels"]:
         for label in issue.labels:
-            if label in config["ignore-labels"]:
+            if label.name in config["ignore-labels"]:
                 return False
     return True
