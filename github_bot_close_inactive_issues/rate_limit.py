@@ -2,9 +2,11 @@ import argparse
 from .utils import get_config, rate_limit, start_logging
 import logging
 import logging.config
+import sys
 
-
-def main(argv):
+def main(argv=None):
+    if not argv:
+        argv=sys.argv[1:]
     parser = argparse.ArgumentParser(description='Check rate limit.')
     parser.add_argument('--config', action="store", help='Configuration file')
     parser.add_argument('--logging-config', action="store", help='Logging configuration file')

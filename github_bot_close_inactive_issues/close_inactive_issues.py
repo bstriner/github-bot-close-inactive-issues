@@ -5,7 +5,7 @@ from .issues import issue_close, issue_warning
 import logging
 import logging.config
 from datetime import datetime
-
+import sys
 
 def process_issues(config):
     conn = connect(config)
@@ -58,7 +58,9 @@ def process_issues(config):
     logging.info("Processed {} open issues. {} issues closed. {} warnings posted.".format(count, closed, warnings))
 
 
-def main(argv):
+def main(argv=None):
+    if not argv:
+        argv=sys.argv[1:]
     parser = argparse.ArgumentParser(description='Run bot to maintain issues.')
     parser.add_argument('--config', action="store", help='Configuration file')
     parser.add_argument('--logging-config', action="store", help='Logging configuration file')

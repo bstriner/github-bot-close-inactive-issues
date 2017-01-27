@@ -5,7 +5,6 @@ long_description = open('README.rst').read()
 
 VERSION = '0.0.1'
 
-scripts = [os.path.join("scripts", file) for file in ["github-rate-limit.py", "github-close-inactive-issues.py"]]
 package_data = {"github_bot_close_inactive_issues": ["logging.conf"]}
 
 setup(name='github-bot-close-inactive-issues',
@@ -16,7 +15,6 @@ setup(name='github-bot-close-inactive-issues',
       author='Ben Striner',
       author_email='btriner@gmail.com',
       packages=find_packages(),
-      scripts=scripts,
       package_data=package_data,
       long_description=long_description,
       keywords=['github', 'issues', 'inactive', 'abandoned'],
@@ -32,6 +30,12 @@ setup(name='github-bot-close-inactive-issues',
           'Programming Language :: Python :: 2',
           'Programming Language :: Python :: 3'
       ],
+      entry_points={
+          'console_scripts': [
+              'github-rate-limit=github_bot_close_inactive_issues.rate_limit:main',
+              'github-close-inactive-issues=github_bot_close_inactive_issues.close_inactive_issues:main'
+          ]
+      },
       install_requires=[
           'PyGithub'
       ]
