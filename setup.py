@@ -3,7 +3,7 @@ import os
 
 long_description = open('README.rst').read()
 
-VERSION = '0.0.2'
+VERSION = '0.0.3'
 
 package_data = {"github_bot_close_inactive_issues": ["logging.conf"]}
 
