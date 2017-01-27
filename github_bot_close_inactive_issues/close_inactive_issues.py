@@ -1,6 +1,6 @@
 import argparse
 from .utils import get_config, connect, get_deadline, rate_limit, start_logging, wait_for_rate_limit
-from .issues import issue_last_modified, issue_last_warning
+from .issues import issue_last_modified, issue_last_warning, issue_should_process
 from .issues import issue_close, issue_warning
 import logging
 import logging.config
@@ -25,7 +25,7 @@ def process_issues(config):
     closed = 0
     wait_for_rate_limit(conn)
     for issue in issues:
-        if ("ignore-users" not in config) or (issue.user.login not in config["ignore-users"]):
+        if issue_should_process(issue, config):
             wait_for_rate_limit(conn)
             count += 1
             lm = issue_last_modified(issue, config["user"])

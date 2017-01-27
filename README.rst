@@ -75,6 +75,11 @@ overridden by the command line.
     #   - username1
     #   - username2
 
+    # Do not warn or close issues with these labels (optional)
+    # ignore-labels:
+    #   - label1
+    #   - label2
+
 Scripts
 -------
 
