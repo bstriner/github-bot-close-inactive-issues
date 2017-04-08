@@ -3,7 +3,7 @@ import os
 
 long_description = open('README.rst').read()
 
-VERSION = '0.0.3'
+VERSION = '0.0.4'
 
 package_data = {"github_bot_close_inactive_issues": ["logging.conf"]}
 
@@ -37,6 +37,6 @@ setup(name='github-bot-close-inactive-issues',
           ]
       },
       install_requires=[
-          'PyGithub'
+          'PyGithub','pyyaml'
       ]
       )
